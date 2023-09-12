@@ -16,6 +16,7 @@ public class Letter {
     private Long id;
     private String title;
     private String content;
+    private String date;
 
     @ManyToOne
     @JoinColumn(name = "donatee_id")

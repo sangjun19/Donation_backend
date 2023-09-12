@@ -16,6 +16,7 @@ public class Donatee {
     private Long id;
     private String name;
     private int money;
+    private String date;
 
     @ManyToOne
     @JoinColumn(name = "donator_id")

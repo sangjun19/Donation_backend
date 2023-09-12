@@ -74,18 +74,21 @@ public class DonationController {
         Letter letter = new Letter();
         letter.setTitle("9월");
         letter.setContent("편지");
+        letter.setDate("2023년 9월 12일");
         List<Letter> letters = new ArrayList<>();
         letters.add(letter);
         letterRepository.save(letter);
         Letter letter2 = new Letter();
         letter2.setTitle("10월");
         letter2.setContent("안녕");
+        letter2.setDate("2023년 10월 12일");
         letters.add(letter2);
         letterRepository.save(letter2);
 
         Donatee donatee = new Donatee();
         donatee.setName("gildong");
         donatee.setMoney(1000);
+        donatee.setDate("2023년 9월 12일");
 
         donatee.setSendLetters(letters);
         donateeRepository.save(donatee);
