@@ -16,6 +16,8 @@ public class Benef {
     private Long id;
     private String name;
     private String info;
+    private String title;
+    private int per;
 
     // Getter and Setter methods
 }

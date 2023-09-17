@@ -1,9 +1,6 @@
 package com.example.Donation.controller;
 
-import com.example.Donation.model.Benef;
-import com.example.Donation.model.Donatee;
-import com.example.Donation.model.Donator;
-import com.example.Donation.model.Letter;
+import com.example.Donation.model.*;
 import com.example.Donation.repository.DonateeRepository;
 import com.example.Donation.repository.DonatorRepository;
 import com.example.Donation.repository.LetterRepository;
@@ -11,10 +8,15 @@ import com.example.Donation.repository.BenefRepository;
 import com.example.Donation.exception.ResourceNotFoundException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.JpaSort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -99,6 +101,20 @@ public class DonationController {
         donatees.add(donatee);
         donator.setDonatedTo(donatees);
         donatorRepository.save(donator);
+
+        Benef benef = new Benef();
+        benef.setName("asdf");
+        benef.setTitle("축구가 하고 싶어요");
+        benef.setInfo("축구선수가 되는게 꿈 이에요");
+        benef.setPer(80);
+        benefRepository.save(benef);
+
+        Benef benef2 = new Benef();
+        benef2.setName("qwer");
+        benef2.setTitle("피아노가 하고 싶어요");
+        benef2.setInfo("아름다운 피아노를 연주하고 싶어요");
+        benef.setPer(60);
+        benefRepository.save(benef2);
     }
 
     @GetMapping("/donators/{id}/donatees")
@@ -122,8 +138,14 @@ public class DonationController {
     }
 
     @GetMapping("/benefs")
-    public List<Benef> getAllBeneficiaries() {
-        return benefRepository.findAll();
+    public ResponseEntity<List<Benef>> getFilteredBeneficiaries(@RequestParam(value = "keyword") String keyword) {
+        List<Benef> benefs = benefRepository.findByInfoContaining(keyword);
+
+        if (!benefs.isEmpty()) {
+            return ResponseEntity.ok(benefs);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
     }
 
     @GetMapping("/benefs/{id}")
