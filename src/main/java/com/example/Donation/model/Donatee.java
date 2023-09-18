@@ -22,9 +22,6 @@ public class Donatee {
     @JoinColumn(name = "donator_id")
     private Donator donator; // 수혜자가 어떤 기부자에게 받은 것인지를 나타내는 연관관계
 
-//    @OneToMany(mappedBy = "donatee")
-//    private Benef benef;
-
     @OneToMany(mappedBy = "donatee", fetch = FetchType.EAGER)
     private List<Letter> sendLetters;
 

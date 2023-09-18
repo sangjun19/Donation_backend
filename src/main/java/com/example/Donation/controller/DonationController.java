@@ -6,6 +6,7 @@ import com.example.Donation.repository.DonatorRepository;
 import com.example.Donation.repository.LetterRepository;
 import com.example.Donation.repository.BenefRepository;
 import com.example.Donation.exception.ResourceNotFoundException;
+import com.example.Donation.service.FirebaseService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.JpaSort;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api")
@@ -107,14 +109,22 @@ public class DonationController {
         benef.setTitle("축구가 하고 싶어요");
         benef.setInfo("축구선수가 되는게 꿈 이에요");
         benef.setPer(80);
+        benef.addHashtag("#축구");
+        benef.addHashtag2("#축구선수");
         benefRepository.save(benef);
 
         Benef benef2 = new Benef();
         benef2.setName("qwer");
         benef2.setTitle("피아노가 하고 싶어요");
         benef2.setInfo("아름다운 피아노를 연주하고 싶어요");
-        benef.setPer(60);
+        benef2.setPer(60);
+        benef2.addHashtag("#피아노");
+        benef2.addHashtag2("#피아니스트");
         benefRepository.save(benef2);
+
+        //FirebaseService firebaseService = new FirebaseService();
+        //firebaseService.uploadData(benef);
+        //firebaseService.uploadData(benef2);
     }
 
     @GetMapping("/donators/{id}/donatees")
@@ -148,10 +158,16 @@ public class DonationController {
         }
     }
 
-    @GetMapping("/benefs/{id}")
-    public Benef getBeneficiaryById(@PathVariable Long id) {
-        return benefRepository.findById(id)
+    @PutMapping("/benefs/{id}/updatePer")
+    public ResponseEntity<Benef> updateBeneficiaryPer(@PathVariable Long id, @RequestParam int per) {
+        Benef beneficiary = benefRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Beneficiary not found with id " + id));
+
+        // Update the 'per' field
+        beneficiary.setPer(per);
+
+        Benef updatedBeneficiary = benefRepository.save(beneficiary);
+        return ResponseEntity.ok(updatedBeneficiary);
     }
 
     @PostMapping("/benefs")
@@ -160,16 +176,21 @@ public class DonationController {
     }
 
     @PutMapping("/benefs/{id}")
-    public Benef updateBeneficiary(@PathVariable Long id, @RequestBody Benef benefDetails) {
+    public ResponseEntity<Benef> updateBeneficiary(@PathVariable Long id, @RequestBody Benef benefDetails) {
         Benef beneficiary = benefRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Beneficiary not found with id " + id));
 
-        // Update beneficiary details here
-        // beneficiary.setName(benefDetails.getName());
-        // ...
+        // Update the 'per' field if it is present in the request body
+//        if (benefDetails.getPer() != null) {
+//            beneficiary.setPer(benefDetails.getPer());
+//        }
 
-        return benefRepository.save(beneficiary);
+        // You can similarly update other fields if needed
+
+        Benef updatedBeneficiary = benefRepository.save(beneficiary);
+        return ResponseEntity.ok(updatedBeneficiary);
     }
+
 
     @DeleteMapping("/benefs/{id}")
     public void deleteBeneficiary(@PathVariable Long id) {
@@ -178,11 +199,4 @@ public class DonationController {
 
         benefRepository.delete(beneficiary);
     }
-
-
-    // 수혜자(Benef) 관련 엔드포인트
-
-    // Letter 엔터티 관련 엔드포인트
-
-    // 예외 처리를 위한 핸들러 등을 추가할 수 있습니다.
 }
