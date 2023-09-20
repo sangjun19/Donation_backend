@@ -26,7 +26,7 @@ public class Benef {
     private int got_money;
     private int need_money;
     private String gender;
-    private String age;
+    private int age;
     private String condition;
 
     @ElementCollection
