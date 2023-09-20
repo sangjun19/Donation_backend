@@ -46,8 +46,8 @@ public class DonationController {
         Donator donator = new Donator();
         donator.setName("이재용");
 
-        Benef[] benefs = new Benef[12];
-        for(int i=0;i<12;i++) {
+        Benef[] benefs = new Benef[11];
+        for(int i=0;i<11;i++) {
             benefs[i] = new Benef();
             benefs[i].setName(data.getName(i));
             benefs[i].setInfo(data.getInfo(i));
