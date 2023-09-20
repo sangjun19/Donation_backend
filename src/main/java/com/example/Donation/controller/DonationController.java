@@ -13,6 +13,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,8 +37,50 @@ public class DonationController {
     @Autowired
     private DonateeRepository donateeRepository;
 
+    private List<Donatee>donatees = new ArrayList<>();;
     // 후원자(Donator) 관련 엔드포인트
+    @PostConstruct
+    void init() {
+        Data data = new Data();
 
+        Donator donator = new Donator();
+        donator.setName("이재용");
+
+        Benef[] benefs = new Benef[12];
+        for(int i=0;i<12;i++) {
+            benefs[i] = new Benef();
+            benefs[i].setName(data.getName(i));
+            benefs[i].setInfo(data.getInfo(i));
+            benefs[i].setTitle(data.getTitle(i));
+            benefs[i].setAge(data.getAge(i));
+            benefs[i].setGender(data.getGender(i));
+            benefs[i].setCondition(data.getCondition(i));
+            benefs[i].setGot_money(data.getGetMoney(i));
+            benefs[i].setNeed_money(data.getNeedMoney(i));
+            benefs[i].setHashtags(data.getHashtag1(i));
+            benefs[i].setHashtags2(data.getHashtag2(i));
+            benefs[i].setPer(data.getPer(i));
+            benefRepository.save(benefs[i]);
+        }
+
+        Donatee donatee = new Donatee();
+        donatee.setName("이재민");
+        donatee.setDate("2023년 5월 12일 13시 32분");
+        donatee.setMoney(100000);
+
+        Donatee donatee2 = new Donatee();
+        donatee2.setName("김수현");
+        donatee2.setDate("2023년 6월 26일 17시 41분");
+        donatee2.setMoney(150000);
+
+        donatees.add(donatee);
+        donatees.add(donatee2);
+        donateeRepository.save(donatee);
+        donateeRepository.save(donatee2);
+
+        donator.setDonatedTo(donatees);
+        donatorRepository.save(donator);
+    }
     @GetMapping("/donators")
     public List<Donator> getAllDonators() {
         return donatorRepository.findAll();
@@ -71,61 +115,6 @@ public class DonationController {
 
         donatorRepository.delete(donator);
     }
-
-    @PostConstruct
-    void init() {
-        Letter letter = new Letter();
-        letter.setTitle("9월");
-        letter.setContent("편지");
-        letter.setDate("2023년 9월 12일");
-        List<Letter> letters = new ArrayList<>();
-        letters.add(letter);
-        letterRepository.save(letter);
-        Letter letter2 = new Letter();
-        letter2.setTitle("10월");
-        letter2.setContent("안녕");
-        letter2.setDate("2023년 10월 12일");
-        letters.add(letter2);
-        letterRepository.save(letter2);
-
-        Donatee donatee = new Donatee();
-        donatee.setName("gildong");
-        donatee.setMoney(1000);
-        donatee.setDate("2023년 9월 12일");
-
-        donatee.setSendLetters(letters);
-        donateeRepository.save(donatee);
-
-        Donator donator = new Donator();
-        donator.setName("Hong");
-        List<Donatee> donatees = new ArrayList<>();
-        donatees.add(donatee);
-        donator.setDonatedTo(donatees);
-        donatorRepository.save(donator);
-
-        Benef benef = new Benef();
-        benef.setName("asdf");
-        benef.setTitle("축구가 하고 싶어요");
-        benef.setInfo("축구선수가 되는게 꿈 이에요");
-        benef.setPer(80);
-        benef.addHashtag("#축구");
-        benef.addHashtag2("#축구선수");
-        benefRepository.save(benef);
-
-        Benef benef2 = new Benef();
-        benef2.setName("qwer");
-        benef2.setTitle("피아노가 하고 싶어요");
-        benef2.setInfo("아름다운 피아노를 연주하고 싶어요");
-        benef2.setPer(60);
-        benef2.addHashtag("#피아노");
-        benef2.addHashtag2("#피아니스트");
-        benefRepository.save(benef2);
-
-        //FirebaseService firebaseService = new FirebaseService();
-        //firebaseService.uploadData(benef);
-        //firebaseService.uploadData(benef2);
-    }
-
     @GetMapping("/donators/{id}/donatees")
     public List<Donatee> getAllDonatees() {
         return donateeRepository.findAll();
@@ -157,13 +146,34 @@ public class DonationController {
         }
     }
 
-    @PutMapping("/benefs/{id}/updatePer")
-    public ResponseEntity<Benef> updateBeneficiaryPer(@PathVariable Long id, @RequestParam int per) {
-        Benef beneficiary = benefRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Beneficiary not found with id " + id));
+    @PutMapping("/donators/{donator_id}/benefs/{benef_id}/addDonatee")
+    public ResponseEntity<Benef> updateBeneficiaryPer(@PathVariable Long donator_id, @PathVariable Long benef_id, @RequestParam int money) {
+        Benef beneficiary = benefRepository.findById(benef_id)
+                .orElseThrow(() -> new ResourceNotFoundException("Beneficiary not found with id " + benef_id));
 
         // Update the 'per' field
-        beneficiary.setPer(per);
+        beneficiary.setGot_money(beneficiary.getGot_money() + money);
+        int got = beneficiary.getGot_money();
+        int need = beneficiary.getNeed_money();
+        beneficiary.setPer(((float) got / need) * 100);
+
+        Donatee donatee = new Donatee();
+        donatee.setName(beneficiary.getName());
+
+        LocalDateTime now = LocalDateTime.now();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일 H시 mm분");
+        String formattedDate = now.format(formatter);
+
+        donatee.setDate(formattedDate);
+        donatee.setMoney(money);
+        donateeRepository.save(donatee);
+
+        donatees.add(donatee);
+        Donator donator = donatorRepository.findById(donator_id)
+                .orElseThrow(() -> new ResourceNotFoundException("Donator not found with id " + donator_id));
+        donator.setDonatedTo(donatees);
+        donatorRepository.save(donator);
 
         Benef updatedBeneficiary = benefRepository.save(beneficiary);
         return ResponseEntity.ok(updatedBeneficiary);
@@ -175,21 +185,15 @@ public class DonationController {
     }
 
     @PutMapping("/benefs/{id}")
-    public ResponseEntity<Benef> updateBeneficiary(@PathVariable Long id, @RequestBody Benef benefDetails) {
+    public ResponseEntity<Benef> updateBeneficiary(@PathVariable Long id) {
         Benef beneficiary = benefRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Beneficiary not found with id " + id));
 
-        // Update the 'per' field if it is present in the request body
-//        if (benefDetails.getPer() != null) {
-//            beneficiary.setPer(benefDetails.getPer());
-//        }
 
-        // You can similarly update other fields if needed
 
         Benef updatedBeneficiary = benefRepository.save(beneficiary);
         return ResponseEntity.ok(updatedBeneficiary);
     }
-
 
     @DeleteMapping("/benefs/{id}")
     public void deleteBeneficiary(@PathVariable Long id) {

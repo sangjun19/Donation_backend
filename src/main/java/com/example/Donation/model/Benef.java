@@ -19,9 +19,15 @@ public class Benef {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Column(length = 5000)
     private String info;
     private String title;
-    private int per;
+    private float per;
+    private int got_money;
+    private int need_money;
+    private String gender;
+    private String age;
+    private String condition;
 
     @ElementCollection
     @CollectionTable(name = "benef_hashtags", joinColumns = @JoinColumn(name = "benef_id"))
@@ -32,17 +38,6 @@ public class Benef {
     @CollectionTable(name = "benef_hashtags2", joinColumns = @JoinColumn(name = "benef_id"))
     @Column(name = "hashtag2")
     private List<String> hashtags2 = new ArrayList<>();
-
-    public Benef() {
-
-    }
-
-    public Benef(String name, String info, String title, int per) {
-        this.name = name;
-        this.info = info;
-        this.title = title;
-        this.per = per;
-    }
 
     public void addHashtag(String hashtag) {
         this.hashtags.add(hashtag);
