@@ -81,61 +81,61 @@ public class DonationController {
         donator.setDonatedTo(donatees);
         donatorRepository.save(donator);
     }
-    @GetMapping("/donators")
+    @GetMapping("/donators") //기증자들 가져오기
     public List<Donator> getAllDonators() {
         return donatorRepository.findAll();
     }
 
-    @GetMapping("/donators/{id}")
+    @GetMapping("/donators/{id}") //특정 기증자 가져오기(/donators/1)
     public Donator getDonatorById(@PathVariable Long id) {
         return donatorRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Donator not found with id " + id));
     }
 
-    @PostMapping("/donators")
-    public Donator createDonator(@RequestBody Donator donator) {
-        return donatorRepository.save(donator);
-    }
+//    @PostMapping("/donators")
+//    public Donator createDonator(@RequestBody Donator donator) {
+//        return donatorRepository.save(donator);
+//    }
 
-    @PutMapping("/donators/{id}")
-    public Donator updateDonator(@PathVariable Long id, @RequestBody Donator donatorDetails) {
-        Donator donator = donatorRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Donator not found with id " + id));
+//    @PutMapping("/donators/{id}")
+//    public Donator updateDonator(@PathVariable Long id, @RequestBody Donator donatorDetails) {
+//        Donator donator = donatorRepository.findById(id)
+//                .orElseThrow(() -> new ResourceNotFoundException("Donator not found with id " + id));
+//
+//        donator.setName(donatorDetails.getName());
+//        //donator.setEmail(donatorDetails.getEmail());
+//
+//        return donatorRepository.save(donator);
+//    }
 
-        donator.setName(donatorDetails.getName());
-        //donator.setEmail(donatorDetails.getEmail());
-
-        return donatorRepository.save(donator);
-    }
-
-    @DeleteMapping("/donators/{id}")
-    public void deleteDonator(@PathVariable Long id) {
-        Donator donator = donatorRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Donator not found with id " + id));
-
-        donatorRepository.delete(donator);
-    }
-    @GetMapping("/donators/{id}/donatees")
+//    @DeleteMapping("/donators/{id}")
+//    public void deleteDonator(@PathVariable Long id) {
+//        Donator donator = donatorRepository.findById(id)
+//                .orElseThrow(() -> new ResourceNotFoundException("Donator not found with id " + id));
+//
+//        donatorRepository.delete(donator);
+//    }
+    @GetMapping("/donators/{id}/donatees") //기증자가 기부하고 있는 수혜자들 가져오기
     public List<Donatee> getAllDonatees() {
         return donateeRepository.findAll();
     }
 
-    @PostMapping("/donators/{id}/donatees")
-    public Donatee createDonatee(@RequestBody Donatee donatee) {
-        return donateeRepository.save(donatee);
-    }
+//    @PostMapping("/donators/{id}/donatees")
+//    public Donatee createDonatee(@RequestBody Donatee donatee) {
+//        return donateeRepository.save(donatee);
+//    }
 
-    @GetMapping("/donators/{donator_id}/donatees/{donatee_id}")
-    public List<Letter> getAllLetters() {
-        return letterRepository.findAll();
-    }
+//    @GetMapping("/donators/{donator_id}/donatees/{donatee_id}")
+//    public List<Letter> getAllLetters() {
+//        return letterRepository.findAll();
+//    }
 
-    @PostMapping("/donators/{donator_id}/donatees/{donatee_id}")
-    public Letter createLetter(@RequestBody Letter letter) {
-        return letterRepository.save(letter);
-    }
+//    @PostMapping("/donators/{donator_id}/donatees/{donatee_id}")
+//    public Letter createLetter(@RequestBody Letter letter) {
+//        return letterRepository.save(letter);
+//    }
 
-    @GetMapping("/benefs")
+    @GetMapping("/benefs") //수혜자 정보들 가져오기
     public ResponseEntity<List<Benef>> getFilteredBeneficiaries(@RequestParam(value = "keyword") String keyword) {
         List<Benef> benefs = benefRepository.findByInfoContaining(keyword);
 
@@ -146,7 +146,7 @@ public class DonationController {
         }
     }
 
-    @PutMapping("/donators/{donator_id}/benefs/{benef_id}/addDonatee")
+    @PutMapping("/donators/{donator_id}/benefs/{benef_id}/addDonatee") //수혜자 기부시 내가 기증하고 있는 수혜자 목록에 추가 및 per 업데이트
     public ResponseEntity<Benef> updateBeneficiaryPer(@PathVariable Long donator_id, @PathVariable Long benef_id, @RequestParam int money) {
         Benef beneficiary = benefRepository.findById(benef_id)
                 .orElseThrow(() -> new ResourceNotFoundException("Beneficiary not found with id " + benef_id));
@@ -179,27 +179,27 @@ public class DonationController {
         return ResponseEntity.ok(updatedBeneficiary);
     }
 
-    @PostMapping("/benefs")
-    public Benef createBeneficiary(@RequestBody Benef benef) {
-        return benefRepository.save(benef);
-    }
+//    @PostMapping("/benefs")
+//    public Benef createBeneficiary(@RequestBody Benef benef) {
+//        return benefRepository.save(benef);
+//    }
 
-    @PutMapping("/benefs/{id}")
-    public ResponseEntity<Benef> updateBeneficiary(@PathVariable Long id) {
-        Benef beneficiary = benefRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Beneficiary not found with id " + id));
+//    @PutMapping("/benefs/{id}")
+//    public ResponseEntity<Benef> updateBeneficiary(@PathVariable Long id) {
+//        Benef beneficiary = benefRepository.findById(id)
+//                .orElseThrow(() -> new ResourceNotFoundException("Beneficiary not found with id " + id));
+//
+//
+//
+//        Benef updatedBeneficiary = benefRepository.save(beneficiary);
+//        return ResponseEntity.ok(updatedBeneficiary);
+//    }
 
-
-
-        Benef updatedBeneficiary = benefRepository.save(beneficiary);
-        return ResponseEntity.ok(updatedBeneficiary);
-    }
-
-    @DeleteMapping("/benefs/{id}")
-    public void deleteBeneficiary(@PathVariable Long id) {
-        Benef beneficiary = benefRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Beneficiary not found with id " + id));
-
-        benefRepository.delete(beneficiary);
-    }
+//    @DeleteMapping("/benefs/{id}")
+//    public void deleteBeneficiary(@PathVariable Long id) {
+//        Benef beneficiary = benefRepository.findById(id)
+//                .orElseThrow(() -> new ResourceNotFoundException("Beneficiary not found with id " + id));
+//
+//        benefRepository.delete(beneficiary);
+//    }
 }
