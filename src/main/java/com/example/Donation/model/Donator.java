@@ -15,6 +15,7 @@ public class Donator {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private int money;
 
     @OneToMany(mappedBy = "donator")
     private List<Donatee> donatedTo; // 기부자가 기부한 수혜자 목록

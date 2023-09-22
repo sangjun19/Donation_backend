@@ -88,6 +88,14 @@ public class DonationController {
 
     @GetMapping("/donators/{id}") //특정 기증자 가져오기(/donators/1)
     public Donator getDonatorById(@PathVariable Long id) {
+        List<Donatee> donateeList = donateeRepository.findAll();
+        Donator donator = donatorRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Donator not found with id " + id));
+        int money = 0;
+        for(Donatee donatee : donateeList) {
+            money += donatee.getMoney();
+        }
+        donator.setMoney(money);
         return donatorRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Donator not found with id " + id));
     }
