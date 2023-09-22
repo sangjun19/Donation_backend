@@ -21,8 +21,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
+
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "https://web-hackerton12-iciy2almupbz2s.sel5.cloudtype.app/")
 public class DonationController {
 
     @Autowired
