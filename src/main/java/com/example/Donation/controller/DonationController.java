@@ -22,7 +22,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 
-@CrossOrigin(origins = "https://web-hackerton12-iciy2almupbz2s.sel5.cloudtype.app")
+@CrossOrigin(origins = "https://web-hackerton22-iciy2almupbz2s.sel5.cloudtype.app")
 @RestController
 @RequestMapping("/api")
 public class DonationController {
