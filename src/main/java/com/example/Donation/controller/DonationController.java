@@ -66,13 +66,13 @@ public class DonationController {
 
         Donatee donatee = new Donatee();
         donatee.setName("이재민");
-        donatee.setDate("2023년 5월 12일 13시 32분");
+        donatee.setDate("2023년 5월 12일");
         donatee.setMoney(100000);
         donatee.setImgOne(1);
 
         Donatee donatee2 = new Donatee();
         donatee2.setName("김수현");
-        donatee2.setDate("2023년 6월 26일 17시 41분");
+        donatee2.setDate("2023년 6월 26일");
         donatee2.setMoney(150000);
         donatee2.setImgOne(2);
 
