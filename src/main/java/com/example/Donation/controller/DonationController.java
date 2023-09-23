@@ -66,13 +66,13 @@ public class DonationController {
 
         Donatee donatee = new Donatee();
         donatee.setName("이재민");
-        donatee.setDate("2023년 5월 12일");
+        donatee.setDate("2023.05.23");
         donatee.setMoney(100000);
         donatee.setImgOne(1);
 
         Donatee donatee2 = new Donatee();
         donatee2.setName("김수현");
-        donatee2.setDate("2023년 6월 26일");
+        donatee2.setDate("2023.06.26");
         donatee2.setMoney(150000);
         donatee2.setImgOne(2);
 
@@ -173,7 +173,7 @@ public class DonationController {
 
         LocalDateTime now = LocalDateTime.now();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
         String formattedDate = now.format(formatter);
 
         don.setDate(formattedDate);
