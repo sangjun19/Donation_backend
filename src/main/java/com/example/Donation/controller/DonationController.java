@@ -44,7 +44,7 @@ public class DonationController {
         Data data = new Data();
 
         Donator donator = new Donator();
-        donator.setName("이재용");
+        donator.setName("상수우");
         donator.setMoney(250000);
 
         Benef[] benefs = new Benef[11];
