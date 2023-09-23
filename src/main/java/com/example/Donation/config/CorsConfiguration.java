@@ -15,7 +15,8 @@ public class CorsConfiguration {
             public void addCorsMappings(CorsRegistry registry) {
                 registry
                         .addMapping("/**")
-                        .allowedOrigins("https://web-hackerton22-iciy2almupbz2s.sel5.cloudtype.app")
+                        .allowedOrigins("https://web-hackerton-iciy2almupbz2s.sel5.cloudtype.app")
+                //https://web-hackerton-iciy2almupbz2s.sel5.cloudtype.app/
                 // 이 설정은 https://sub.example.app 인 origin을 허용합니다.
                 ;
             }
