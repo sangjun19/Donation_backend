@@ -94,7 +94,7 @@ public class Data {
         this.hashtag2[n][2] = "#운동용품";
         this.ageRange[n] = "13~18세";
         this.age[n] = 15;
-        this.condition[n] = "생활지원";
+        this.condition[n] = "재능지원";
         this.getMoney[n] = 7900000;
         this.needMoney[n] = 10000000;
         this.per[n] = ((float)this.getMoney[n] / this.needMoney[n]) * 100;
@@ -119,7 +119,7 @@ public class Data {
         this.hashtag2[n][2] = "#생활용품";
         this.ageRange[n] = "0~3세";
         this.age[n] = 3;
-        this.condition[n] = "생활지원";
+        this.condition[n] = "미혼모";
         this.getMoney[n] = 13200000;
         this.needMoney[n] = 20000000;
         this.per[n] = ((float)this.getMoney[n] / this.needMoney[n]) * 100;
@@ -173,7 +173,7 @@ public class Data {
         this.hashtag2[n][2] = "#기관후원";
         this.ageRange[n] = "4~18세";
         this.age[n] = 15;
-        this.condition[n] = "생활지원";
+        this.condition[n] = "보육원";
         this.getMoney[n] = 41200000;
         this.needMoney[n] = 50000000;
         this.per[n] = ((float)this.getMoney[n] / this.needMoney[n]) * 100;
@@ -248,7 +248,7 @@ public class Data {
         this.hashtag2[n][2] = "#미술용";
         this.ageRange[n] = "13~18세";
         this.age[n] = 16;
-        this.condition[n] = "생활지원";
+        this.condition[n] = "재능지원";
         this.getMoney[n] = 8100000;
         this.needMoney[n] = 10000000;
         this.per[n] = ((float)this.getMoney[n] / this.needMoney[n]) * 100;
@@ -273,7 +273,7 @@ public class Data {
         this.hashtag2[n][2] = "#소아청력장애";
         this.ageRange[n] = "4~6세";
         this.age[n] = 5;
-        this.condition[n] = "생활지원";
+        this.condition[n] = "의료지원";
         this.getMoney[n] = 1200000;
         this.needMoney[n] = 10000000;
         this.per[n] = ((float)this.getMoney[n] / this.needMoney[n]) * 100;
