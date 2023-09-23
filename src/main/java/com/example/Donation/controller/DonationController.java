@@ -173,7 +173,7 @@ public class DonationController {
 
         LocalDateTime now = LocalDateTime.now();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일 H시 mm분");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일");
         String formattedDate = now.format(formatter);
 
         don.setDate(formattedDate);
