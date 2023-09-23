@@ -8,8 +8,6 @@ import com.example.Donation.repository.BenefRepository;
 import com.example.Donation.exception.ResourceNotFoundException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.JpaSort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -168,19 +166,21 @@ public class DonationController {
         int need = beneficiary.getNeed_money();
         beneficiary.setPer(((float) got / need) * 100);
 
-        Donatee donatee = new Donatee();
-        donatee.setName(beneficiary.getName());
+        Donatee don = new Donatee();
+        don.setName(beneficiary.getName());
 
         LocalDateTime now = LocalDateTime.now();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일 H시 mm분");
         String formattedDate = now.format(formatter);
 
-        donatee.setDate(formattedDate);
-        donatee.setMoney(money);
-        donateeRepository.save(donatee);
+        don.setDate(formattedDate);
+        don.setImgOne(Math.toIntExact(benef_id));
+        System.out.println(don.getImgOne());
+        don.setMoney(money);
+        donateeRepository.save(don);
 
-        donatees.add(donatee);
+        donatees.add(don);
         Donator donator = donatorRepository.findById(donator_id)
                 .orElseThrow(() -> new ResourceNotFoundException("Donator not found with id " + donator_id));
         donator.setDonatedTo(donatees);
